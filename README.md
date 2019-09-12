@@ -4,6 +4,8 @@ A tool to auto-concede matches in MTG Arena.
 
 Currently only supports the Non-Ranked Standard 2020 event.
 
+![](demo.png)
+
 ## Why
 
 With this season coming to an end soon and many users having to grind extra hours to get the most out of their investment, Arena Conceder offers the community a way to help those in need reach their goal faster. If you don't mind conceding games in a non-ranked event then please consider running this when you aren't playing to help everyone else out.
@@ -16,9 +18,7 @@ Arena Conceder is a modified version of [Animadoria's UnityGameHook](https://git
 
 Grab the [latest release](https://github.com/Dnawrkshp/arena-conceder/releases) and unpack it into a directory. After unpacking it, open the file called `ArenaConcederSettings.xml` with your favorite text editor. Find the entry surrounded by the `GameDirectory` tags and make sure that the path points to your MTGA installation. If it doesn't, find your MTGA installation by finding the `MTGA.exe` file and then place the path to that file's directory in between the `GameDirectory` tags. And that's it! Just launch `ArenaConceder.exe`, let it install and then launch MTG Arena for you. It will automatically clean up the modded assemblies so that the next time you launch Arena you won't start conceding games.
 
-The tool cannot select a deck automatically at the moment so on first launch you it will send you to the deck selection menu and you will have to manually submit a valid deck. After that, for the duration of the process it will reuse that deck.
-
- **IMPORTANT: When in game you may press right control to toggle the tool.**
+ **IMPORTANT: The tool cannot select a deck automatically so on first launch it will send you to the deck selection menu and you will have to manually submit a valid deck. After that, for the duration of the process, it will reuse that deck.**
 
 ## Compiling
 
