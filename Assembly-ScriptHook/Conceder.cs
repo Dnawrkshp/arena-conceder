@@ -126,7 +126,7 @@ namespace ArenaConceder
                 "Event: " + _eventName + "\n" +
                 "Concessions: " + _concessions + "\n" +
                 "Time: " + new TimeSpan(0, 0, (int)(Time.time - _startTime)).ToString(@"hh\:mm\:ss") + "\n" +
-                "Status: " + (_enabled ? "Enabled" : "Disabled") + " (Right-Ctrl)";
+                "Status: " + (_enabled ? "Running" : "Disabled") + " (Right-Ctrl)";
         }
 
         /// <summary>
@@ -192,6 +192,7 @@ namespace ArenaConceder
                     if (DuelSceneContext.Globals.GameManager.GreConnection.MatchDoorState.State == GreClient.Network.MatchDoorConnectionStateEnum.Playing)
                     {
                         ++_concessions;
+                        Debug.LogFormat("Conceded {0} games in {1} time.", _concessions, new TimeSpan(0, 0, (int)(Time.time - _startTime)).ToString(@"hh\:mm\:ss"));
                         DuelSceneContext.Globals.GameManager.GreConnection.ConcedeMatch();
                     }
                 }
