@@ -44,6 +44,20 @@ namespace ArenaConceder
         /// </summary>
         private const string _internalEventName = "Future_Play_20190909";
 
+        /// <summary>
+        /// Version number.
+        /// </summary>
+        private const string _version = "1.00";
+
+        /// <summary>
+        /// Status text component used to display info to the user.
+        /// </summary>
+        private Text _text = null;
+
+        /// <summary>
+        /// Canvas object that serves as a parent for the status label.
+        /// </summary>
+        private GameObject _canvasObject = null;
 
         /// <summary>
         /// Called on start by Unity
@@ -52,6 +66,24 @@ namespace ArenaConceder
         {
             // Set start time
             _startTime = Time.time;
+
+            // Setup canvas renderer
+            _canvasObject = new GameObject("_canvas");
+            _canvasObject.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            _canvasObject.transform.position = Vector3.zero;
+            transform.SetParent(_canvasObject.transform, false);
+            DontDestroyOnLoad(_canvasObject);
+
+            // Setup status text
+            _text = gameObject.AddComponent<Text>();
+            _text.fontSize = 16;
+            _text.rectTransform.position = new Vector3(0f, 0f, 0f);
+            _text.rectTransform.anchorMin = _text.rectTransform.anchorMax = new Vector2(0f, 0f);
+            _text.rectTransform.anchoredPosition = new Vector2(10, 10);
+            _text.rectTransform.pivot = Vector2.zero;
+            _text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 600);
+            _text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+            _text.font = Font.CreateDynamicFontFromOSFont("Arial", 64);
         }
 
 #if DEBUG
@@ -67,12 +99,30 @@ namespace ArenaConceder
 #endif
 
         /// <summary>
+        /// Update status text.
+        /// </summary>
+        private void UpdateText()
+        {
+            if (!_text)
+                return;
+
+            _text.text = "Arena Conceder v" + _version + "\n" +
+                "Event: " + _internalEventName + "\n" +
+                "Concessions: " + _concessions + "\n" +
+                "Time: " + new TimeSpan(0, 0, (int)(Time.time - _startTime)).ToString(@"hh\:mm\:ss") + "\n" +
+                "Status: " + (Input.GetKey(KeyCode.RightControl) ? "Disabled" : "Enabled");
+        }
+
+        /// <summary>
         /// Called for UI updates by Unity
         /// </summary>
         public void OnGUI()
         {
             // Get scene
             var scene = SceneLoader.GetSceneLoader();
+
+            // Update text
+            UpdateText();
 
             // Disable logic while user holds right control
             if (Input.GetKey(KeyCode.RightControl))
