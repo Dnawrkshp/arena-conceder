@@ -12,7 +12,7 @@ With this season coming to an end soon and many users having to grind extra hour
 
 ## How
 
-Arena Conceder is a modified version of [Animadoria's UnityGameHook](https://github.com/Animadoria/UnityGameHook). It injects itself into the game, creates a persistent GameObject that then manipulates Arena to perpetually queue and concede. This means that it can run in the background while you play other games, browse the internet, or possibly even play a seperate instance of MTG Arena (untested).
+Arena Conceder is a modified version of [Animadoria's UnityGameHook](https://github.com/Animadoria/UnityGameHook). It injects itself into the game, creates a persistent GameObject that then manipulates Arena to perpetually queue and concede. This means that it can run in the background while you play other games.
 
 ## Usage
 
