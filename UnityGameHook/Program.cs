@@ -100,11 +100,16 @@ namespace UnityGameHook
             // Save assembly
             gameAssembly.Write(assemblyPath);
 
+            // Copy hook into MTGA managed folder
+            File.Copy("./" + pluginPath, Path.Combine(managedPath, pluginPath), true);
+
+            // Copy settings for injected plugin
+            File.Copy("./ArenaConcederSettings.xml", Path.Combine(managedPath, "ArenaConcederSettings.xml"), true);
+
             //
             Console.WriteLine("Saved. Launching MTGA...");
             
-            // Copy hook into MTGA managed folder
-            File.Copy("./" + pluginPath, Path.Combine(managedPath, pluginPath), true);
+
 
             // Launch game
             var process = Process.Start(exeName);

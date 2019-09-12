@@ -1,6 +1,7 @@
 <Settings>
   <GameDirectory>C:\Program Files (x86)\Wizards of the Coast\MTGA</GameDirectory>
-	<AssemblyName>Assembly-CSharp.dll</AssemblyName>
+  <EventName>Future_Play</EventName>
+  <AssemblyName>Assembly-CSharp.dll</AssemblyName>
 	<AssemblyClass>Performance.Logger</AssemblyClass>
 	<AssemblyClassMember>Update</AssemblyClassMember>
 </Settings>

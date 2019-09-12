@@ -19,5 +19,28 @@ namespace ArenaConceder
             foreach (var e in events)
                 Debug.Log(e.EventContext.eventInfo.PublicEventName + " :: " + e.EventContext.eventInfo.InternalEventName);
         }
+
+        /// <summary>
+        /// Returns the internal event name for a given internal or public event name.
+        /// </summary>
+        /// <param name="eventName">Internal or public event name.</param>
+        /// <returns>Internal event name or null if failed.</returns>
+        public static string GetInternalEventName(string eventName)
+        {
+            // Get all events
+            var events = GameObject.FindObjectsOfType<EventTile>();
+
+            // Normalize
+            eventName = eventName.ToLower();
+
+            // Try and find event
+            foreach (var e in events)
+            {
+                if (e.EventContext.eventInfo.PublicEventName.ToLower() == eventName || e.EventContext.eventInfo.InternalEventName.ToLower() == eventName)
+                    return e.EventContext.eventInfo.InternalEventName;
+            }
+
+            return null;
+        }
     }
 }

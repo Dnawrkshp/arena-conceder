@@ -19,6 +19,11 @@ namespace ArenaConceder
         private string _lastDeck = null;
 
         /// <summary>
+        /// Whether or not the tool is enabled.
+        /// </summary>
+        private bool _enabled = true;
+
+        /// <summary>
         /// Time when the auto condeder began.
         /// </summary>
         private float _startTime = 0f;
@@ -42,7 +47,7 @@ namespace ArenaConceder
         /// Name of the event we want to auto queue.
         /// This should be put into a settings file at some point.
         /// </summary>
-        private const string _internalEventName = "Future_Play_20190909";
+        private string _eventName = "Future_Play";
 
         /// <summary>
         /// Version number.
@@ -66,6 +71,12 @@ namespace ArenaConceder
         {
             // Set start time
             _startTime = Time.time;
+
+            // Load settings
+            Settings settings = new Settings("ArenaConcederSettings.xml");
+
+            // 
+            _eventName = settings.GetString("EventName");
 
             // Setup canvas renderer
             _canvasObject = new GameObject("_canvas");
@@ -95,6 +106,10 @@ namespace ArenaConceder
             // Open debug console... somehow
             if ((Time.time - _startTime) < 1)
                 SceneLoader.GetSceneLoader().CurrentContentType.GetType();
+
+            // Toggle tool when user presses right control
+            if (Input.GetKeyDown(KeyCode.RightControl))
+                _enabled = !_enabled;
         }
 #endif
 
@@ -107,10 +122,10 @@ namespace ArenaConceder
                 return;
 
             _text.text = "Arena Conceder v" + _version + "\n" +
-                "Event: " + _internalEventName + "\n" +
+                "Event: " + _eventName + "\n" +
                 "Concessions: " + _concessions + "\n" +
                 "Time: " + new TimeSpan(0, 0, (int)(Time.time - _startTime)).ToString(@"hh\:mm\:ss") + "\n" +
-                "Status: " + (Input.GetKey(KeyCode.RightControl) ? "Disabled" : "Enabled");
+                "Status: " + (_enabled ? "Enabled" : "Disabled") + " (Right-Ctrl)";
         }
 
         /// <summary>
@@ -124,12 +139,8 @@ namespace ArenaConceder
             // Update text
             UpdateText();
 
-            // Disable logic while user holds right control
-            if (Input.GetKey(KeyCode.RightControl))
-                return;
-
             // Cooldown between actions
-            if (!scene || (Time.time - _lastAction) <= _timeBetweenActions)
+            if (!_enabled || !scene || (Time.time - _lastAction) <= _timeBetweenActions)
                 return;
 
             // Handle scene content
@@ -288,11 +299,16 @@ namespace ArenaConceder
                 case HomePageState.ReadyToPlay_BladeOpen_Invalid:
                 case HomePageState.ReadyToPlay_BladeOpen_Valid:
                     {
-                        // Select event
-                        homepage.ShowBladeAndSelect(_internalEventName);
+                        // Find event
+                        string eventName = Utils.GetInternalEventName(_eventName);
+                        if (eventName != null)
+                        {
+                            // Select event
+                            homepage.ShowBladeAndSelect(eventName);
 
-                        // Play
-                        homepage.OnPlayButton();
+                            // Play
+                            homepage.OnPlayButton();
+                        }
                         break;
                     }
                 default:

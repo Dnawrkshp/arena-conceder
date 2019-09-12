@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace UnityGameHook
+namespace ArenaConceder
 {
     public class Settings
     {
