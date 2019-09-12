@@ -97,26 +97,27 @@ namespace ArenaConceder
             _text.font = Font.CreateDynamicFontFromOSFont("Arial", 64);
         }
 
-#if DEBUG
+
         /// <summary>
         /// Called every frame by Unity
         /// </summary>
         private void Update()
         {
+#if DEBUG
             // Open debug console... somehow
             if ((Time.time - _startTime) < 1)
                 SceneLoader.GetSceneLoader().CurrentContentType.GetType();
+#endif
 
             // Toggle tool when user presses right control
             if (Input.GetKeyDown(KeyCode.RightControl))
                 _enabled = !_enabled;
         }
-#endif
 
-        /// <summary>
-        /// Update status text.
-        /// </summary>
-        private void UpdateText()
+            /// <summary>
+            /// Update status text.
+            /// </summary>
+            private void UpdateText()
         {
             if (!_text)
                 return;
